@@ -42,13 +42,13 @@ char* longestPalindrome(char* s) {
     }
     returnStr = (char*)malloc((maxLen+1)*sizeof(char));
     memcpy(returnStr,longestStr,maxLen);
-    *(returnStr+maxLen) == '\0';
+    *(returnStr+maxLen) = '\0';
     return returnStr;
 
 }
 
 int main(void){
-    char * s = "bd";
+    char * s = "bcbd";
     printf("%s\n",longestPalindrome(s));
 
     return 0;
