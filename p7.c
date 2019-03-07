@@ -1,35 +1,38 @@
 #include <stdio.h>
-#include <math.h>
 #include <limits.h>
-#include <stdlib.h>
-
 int reverse(int x) {
-    unsigned numTable[11];
-    int digitSize = 0,i;
-    long returnNum = 0;
-    if(x > 0)
-        numTable[10] = 0;
-    else if(x < 0)
-        numTable[10] = 1;
-    else  
-        return 0;
-    while(x){
-        numTable[digitSize] = abs(x%10);
-        x/=10;
-        ++digitSize;
+    int temp = 0,temp1 = 0; 
+    while(x/10){
+        temp *= 10;
+        temp += x%10;
+        x /= 10;
     }
-    for(i = digitSize-1;i>-1;--i){
-        returnNum += numTable[digitSize - i - 1]*pow(10,i);
-    }
-    if(!numTable[10]){
-        if(returnNum > INT_MAX)
+    x = x%10;
+    if(temp>0){
+        if(temp < INT_MAX/10){
+            return 10*temp+x;
+        }
+        else if(temp>INT_MAX/10)
             return 0;
-        else return returnNum;
+        else{
+            if(x>7)
+                return 0;
+            else
+                return 10*temp+x;
+            }
     }
     else{
-        if(-1*returnNum < INT_MIN)
-            return 0;
-        else return -1*returnNum;
+        if(temp > INT_MIN/10){
+                    return 10*temp+x;
+                }
+                else if(temp<INT_MIN/10)
+                    return 0;
+                else{
+                    if(x<-8)
+                        return 0;
+                    else
+                        return 10*temp+x;
+                    }
     }
 }
 
