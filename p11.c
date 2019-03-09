@@ -2,12 +2,17 @@
 
 
 int maxArea(int* height, int heightSize) {
-    int left = 0, right = 1,max = 0,temp = 0;
-    for(;left<heightSize-1;++left){
-        for(right = left+1;right<heightSize;++right){
-            temp = *(height+left)>*(height+right)?*(height+right)*(right-left):*(height+left)*(right-left);
-            if(temp>max)
-                max = temp;
+    int left = 0, right = heightSize-1,max = 0,temp = 0;
+    while(right>left){
+        if(*(height+left)>*(height+right)){
+            temp = *(height+right)*(right-left);
+            max = temp>max?temp:max;
+            --right;
+        }
+        else{
+            temp = *(height+left)*(right-left);
+            max = temp>max?temp:max;
+            ++left;            
         }
     }
     return max;
