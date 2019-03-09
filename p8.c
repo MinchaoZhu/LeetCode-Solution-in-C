@@ -24,6 +24,11 @@ int myAtoi(char* str) {
                 if(!(*str>47&&*str<58)||!*str)  
                     return 0;            
             }
+            while(*str&&*str == '0'){
+                ++str;
+                if((*str&&!(*str>47&&*str<58))||!*str) 
+                    return 0;
+            }
             while(*str&&count<9){
                 returnNum *= 10;
                 returnNum += *str - 48;
@@ -61,7 +66,7 @@ int myAtoi(char* str) {
 
 
 int main(void){
-    char* s = "2147483647";
+    char* s = "  00000000000 12345678";
     int i;
     i = myAtoi(s);
     printf("%d\n",i);
