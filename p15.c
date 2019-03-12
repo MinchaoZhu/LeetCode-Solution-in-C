@@ -38,7 +38,7 @@ void insertHashTable(hashTable table, int value, int numsSize){
     if(!temp){
         temp = (hashTable)malloc(sizeof(hashTableNode));
         temp -> value = value;
-        temp -> mOne = 0;
+        temp -> mOne = 1;
         temp -> next = NULL;
         pre -> next = temp;
     }
@@ -61,7 +61,25 @@ int findHashTable(hashTable table,int value, int numsSize){
     return 0;
 }
 
+bool checkTable(int ** returnTable, int size, int x, int y, int z){
+    int * temp, i, j;
+    for(i = 0;i<size;++i){
+        for(j = 0;j<3;++j){
+            if(x == *(*(returnTable+i)+j)){
+                if(y == *(*(returnTable+i)+(j+1)%3)){
+                    if(z == *(*(returnTable+i)+(j+2)%3))
+                        return 1;
+                }
+                if(z == *(*(returnTable+i)+(j+1)%3)){
+                    if(y == *(*(returnTable+i)+(j+2)%3))
+                        return 1;
+                }
+            }
 
+        }
+    }
+    return 0;
+}
 
 int ** threeSum(int* nums, int numsSize, int* returnSize){
     int i=0,j=1,z=0,nx,ny,nz,x,y,reSize = 10;
@@ -72,8 +90,8 @@ int ** threeSum(int* nums, int numsSize, int* returnSize){
     for(i = 0;i<numsSize;++i){
         insertHashTable(table,nums[i],numsSize);
     }
-    for(i = 0;i<numsSize -3;++i){
-        for(j = i+1;j<numsSize-2;++j){
+    for(i = 0;i<numsSize -2;++i){
+        for(j = i+1;j<numsSize-1;++j){
             x = nums[i];
             nx = findHashTable(table,x,numsSize);
             y = nums[j];
@@ -82,19 +100,21 @@ int ** threeSum(int* nums, int numsSize, int* returnSize){
             nz = findHashTable(table,z,numsSize);
             if(x == y&&y == z){
                 if(nx>2){
-                    temp = (int*)malloc(3*sizeof(int));
-                    *temp = x;
-                    *temp = y;
-                    *temp = z;
-                    if(!*returnSize<reSize){
-                        reTemp = returnTable;
-                        returnTable = (int**)malloc((10+reSize)*sizeof(int*));
-                        memcpy(returnTable,reTemp,reSize);
-                        reSize += 10;
-                        free(reTemp);
+                    if(!checkTable(returnTable,*returnSize,x,y,z)){
+                            temp = (int*)malloc(3*sizeof(int));
+                            *temp = x;
+                            *(temp+1) = y;
+                            *(temp+2) = z;
+                            if(!(*returnSize<reSize)){
+                                reTemp = returnTable;
+                                returnTable = (int**)malloc((10+reSize)*sizeof(int*));
+                                memcpy(returnTable,reTemp,reSize);
+                                reSize += 10;
+                                free(reTemp);
+                            }
+                            *(returnTable+*returnSize) = temp; 
+                            *returnSize = *returnSize + 1;
                     }
-                    *(returnTable+*returnSize) = temp; 
-                    *returnSize = *returnSize + 1;
                 }
             }
             else
@@ -111,21 +131,23 @@ int ** threeSum(int* nums, int numsSize, int* returnSize){
                     --nz;
                     --nx;
                 }
-            }
-            if(nx&&ny&&nz){
-                    temp = (int*)malloc(3*sizeof(int));
-                    *temp = x;
-                    *temp = y;
-                    *temp = z;
-                    if(!*returnSize<reSize){
-                        reTemp = returnTable;
-                        returnTable = (int**)malloc((10+reSize)*sizeof(int*));
-                        memcpy(returnTable,reTemp,reSize);
-                        reSize += 10;
-                        free(reTemp);
+                if(nx&&ny&&nz){
+                    if(!checkTable(returnTable,*returnSize,x,y,z)){
+                        temp = (int*)malloc(3*sizeof(int));
+                        *temp = x;
+                        *(temp+1) = y;
+                        *(temp+2) = z;
+                        if(!*returnSize<reSize){
+                            reTemp = returnTable;
+                            returnTable = (int**)malloc((10+reSize)*sizeof(int*));
+                            memcpy(returnTable,reTemp,reSize);
+                            reSize += 10;
+                            free(reTemp);
+                        }
+                        *(returnTable+*returnSize) = temp; 
+                        *returnSize = *returnSize + 1;
                     }
-                    *(returnTable+*returnSize) = temp; 
-                    *returnSize = *returnSize + 1;
+                }
             }
         }
     }
@@ -133,9 +155,9 @@ int ** threeSum(int* nums, int numsSize, int* returnSize){
 }
 
 int main(void){
-    int nums[6] = {-1, 0, 1, 2, -1, -4};
+    int nums[3] = {0,0,0};
     int ** cc, returnSize = 0;
-    cc = threeSum(nums,6,&returnSize);
+    cc = threeSum(nums,3,&returnSize);
     for(int i = 0;i<returnSize;++i){
         for(int j = 0;j<3;++j){
 
