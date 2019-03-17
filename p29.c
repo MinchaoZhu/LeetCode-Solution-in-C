@@ -1,9 +1,17 @@
 #include <stdio.h>
 #include <limits.h>
 #include <stdbool.h>
-#include <math.h>
 
-int divide(int D, int d) {
+long ABS(long x){
+    if(x<0)
+        return -x;
+    else 
+        return x;
+}
+
+
+int divide(int DD, int dd) {
+    long D = DD,d = dd;
     bool sD= 0, sd = 0;
     sD = D<0?1:0;
     sd= d<0?1:0;
@@ -13,7 +21,7 @@ int divide(int D, int d) {
         else if(D==INT_MIN&&d==1)
             return INT_MIN;
         else
-            return sD^sd==0?abs(D):-abs(D);
+            return sD^sd==0?ABS(D):-ABS(D);
     }
     else{
         if(d==INT_MIN){
@@ -22,27 +30,13 @@ int divide(int D, int d) {
             else
                 return 0;
         }
-        if(D==INT_MIN&&abs(d)==2){
-            if(sD)
-                return INT_MAX>>1;
-            else
-                return -(INT_MAX>>1);
-            
-            
-        }        
-        if(D==INT_MIN){
-            D +=1;
-        }
-        unsigned int i,k = 0,DD = abs(D),dd = abs(d),temp = dd,temp1,ret=0;        
-        if(dd>DD)
+        D = ABS(D),d = ABS(d);   
+        unsigned int i,k = 0;
+        long temp = d,temp1,ret=0;   
+        if(d>D)
             return 0;
-        if(DD>=(INT_MAX>>1)){
-            k = 31;
-            temp = dd<<k;
-            goto Line;
-        }
-        while(temp<=DD){
-            if(temp<=(INT_MAX>>1)){
+        while(temp<=D){
+            if(temp<=D){
                 temp = temp<<1;
                 ++k;
                 //temp = temp*2^k
@@ -51,10 +45,10 @@ int divide(int D, int d) {
                 break;
             }
         }
-    Line:
         temp1 = 1<<(k-1);
-        int res = DD;
-        while(res>=dd){
+        temp = temp>>1;
+        long res = D;
+        while(res>=d){
             if(res>=temp){
                 ret+= temp1;
                 temp1 = temp1>>1;
@@ -63,6 +57,7 @@ int divide(int D, int d) {
             }
             else{
                 temp = temp>>1;
+                temp1 = temp1>>1;
             }
         }
         return sD^sd==0?ret:-ret;
@@ -71,7 +66,7 @@ int divide(int D, int d) {
 
 
 int main(void){
-    int D = INT_MAX, d=2,ret = 0;
+    int D = INT_MIN, d=-1,ret = 0;
     ret = divide(D,d);
     printf("%d\n",ret);
 
