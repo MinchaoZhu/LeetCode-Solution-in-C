@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+
 typedef struct flagTable{
     bool flag;
     int add;
@@ -129,7 +130,12 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
             }
             flag[index].flag = 0;
         }
-        j += wordsLen;
+        for(i = 0;i<wordsLen;++i){
+            ++j;
+            if(*(s+j)=='\0'){
+                return rT;
+            }
+        }
         s += wordsLen;
     }
     return rT;
