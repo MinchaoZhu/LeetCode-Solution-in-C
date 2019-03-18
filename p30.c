@@ -59,6 +59,10 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
     }
     int * rT = (int*)malloc(capacity*sizeof(int));
     j = 0;
+    for(i = 0;i<wordsLen;++i){
+            if(*(s+i)=='\0')
+                return rT;    
+    }
     while(s&&*s!='\0'){
         isWord = 0;
         for(i = 0;i<wordsSize;++i){
@@ -75,14 +79,15 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
                         index = flag[index].next;
                     }
                     if(flag[index].flag==0){
-                        flag[i].flag = 1;
-                        flag[i].add = j;
+                        flag[index].flag = 1;
+                        flag[index].add = j;
+                        break;
                     }
                     else{
                         minAddIndex = index;
                         minAdd = j;
                         flag[index].flag = 1;
-                        while(i!=index){
+                        while(i!=-1){
                             if(flag[i].add<minAdd){
                                 minAdd = flag[i].add;
                                 minAddIndex = i;
@@ -95,6 +100,9 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
                                 flag[i].add = -1;
                             }
                         }
+                        flag[minAddIndex].flag = 1;
+                        flag[minAddIndex].add = minAdd;
+
                         break;
                     }
                 }
@@ -105,6 +113,9 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
                 flag[i].flag = 0;
                 flag[i].add = -1;
             }    
+            ++s;
+            ++j;
+            continue;
         }
         failure = 0;
         for(i = 0;i<wordsSize;++i){
@@ -129,17 +140,17 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
                 }
             }
             flag[index].flag = 0;
+            flag[index].add = -1;
         }
+
+        j += wordsLen;
+        s += wordsLen;        
         for(i = 0;i<wordsLen;++i){
-            ++j;
-            if(*(s+j)=='\0'){
-                return rT;
-            }
+            if(*(s+i)=='\0')
+                return rT;    
         }
-        s += wordsLen;
     }
     return rT;
-
 }
 
 
@@ -147,13 +158,15 @@ int* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {
 
 
 int main(void){
-    char * s = "aaa";
-    char * words[2];
+    char * s = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    char * words[4];
     int returnSize=0;
     int * rT;
     words[0] = "aa";
     words[1] = "aa";
-    rT = findSubstring(s,words,2,&returnSize);
+    words[2] = "aa";
+    words[3] = "aa";
+    rT = findSubstring(s,words,4,&returnSize);
 
     for(int i = 0;i<returnSize;++i){
         printf("%d ",*(rT+i));
