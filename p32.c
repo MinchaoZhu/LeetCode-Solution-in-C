@@ -1,70 +1,66 @@
 #include <stdio.h>
+/*
 
-int longestValidParentheses(char *s){
-    if(!s)
+public int longestValidParentheses(String s) {
+    char[] S = s.toCharArray();
+    int[] V = new int[S.length];
+    int open = 0;
+    int max = 0;
+    for (int i=0; i<S.length; i++) {
+        if (S[i] == '(') open++;
+        if (S[i] == ')' && open > 0) {
+            // matches found
+            V[i] = 2+ V[i-1];
+            // add matches from previous
+            if(i-V[i]>0)
+                V[i] += V[i-V[i]];
+            open--;
+        }
+        if (V[i] > max) max = V[i];
+    }
+    return max;
+}
+
+*/
+int longestValidParentheses(char *ss){
+    if(!ss)
         return 0;
-    if(*s=='\0')
+    if(*ss=='\0')
         return 0;
-    char * ss = s;
-    int pVal = 0, len = 0, max0 = 0,strLen = 0,i;
+    char * s = ss;
+    int strLen = 0,max = 0,i,count = 0;
     while(*s){
         ++strLen;
-        if(*s=='('){
-            ++pVal;
-            ++len;
-        }
-        else{
-            pVal--;
-            ++len;
-        }
-        if(pVal==0){
-            max0 = len>max0?len:max0;
-        }
-        else if(pVal < 0){
-            len = 0;
-            pVal = 0;
-        }
         ++s;
     }
-    int max[strLen];
+    int val[strLen];
     for(i = 0;i<strLen;++i){
-        max[i] = 0;
+        val[i] = 0;
     }
-    max[0] = max0;
-    for(i = 1;i<strLen;++i){
-        len = 0;
-        pVal = 0;
-        s = ss+i;
-        if(*s==')')
-            continue;
-        while(*s){
-            if(*s=='('){
-                ++pVal;
-                ++len;
+    s = ss;
+    for(i = 0;i<strLen;++i,++s){
+        if(*s=='('){
+            ++count;
+        }
+        else{
+            if(count>0){
+                val[i] = 2 + val[i-1];
+                val[i] += (i-val[i])>0?val[i-val[i]]:0;
+                --count;
             }
             else{
-                pVal--;
-                ++len;
+                count = 0;
             }
-            if(pVal==0){
-                max0 = len>max0?len:max0;
-            }
-            else if(pVal < 0){
-                len = 0;
-                pVal = 0;
-            }
-            ++s;
+            max = val[i]>max?val[i]:max;
         }
     }
-    for(i = 0;i<strLen;++i){
-        max0 = max0>max[i]?max0:max[i];
-    }
-    return max0;
+
+    return max;
 }
 
 
 int main(void){
-    char * s = "(()";
+    char * s = "(()((()))";
     int max = longestValidParentheses(s);
 
     printf("%d\n",max);
