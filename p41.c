@@ -1,33 +1,20 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-
-int cmp(const void * a, const void * b){
-    return *(int*)a>*(int*)b;
-}
-
-
 
 int firstMissingPositive(int* nums, int numsSize) {
-    if(numsSize==0)
-        return 1;
-    else if(numsSize==1){
-        return *nums>1?1:((*nums==1)?2:1);
+    int i,temp;
+    for(i = 0;i<numsSize;++i){
+        while(nums[i]>0&&nums[i]<numsSize+1&&nums[nums[i] - 1] != nums[i]){
+            temp = nums[i];
+            nums[i] = nums[nums[i]-1];
+            nums[temp-1] = temp;
+        }
     }
-    qsort(nums,numsSize,4,cmp);
-    int i = 0;
-    while(*(nums+i)<1){
-        ++i;
-        if(i>=numsSize) return 1;
+    for(i = 0;i<numsSize;++i){
+        if(nums[i]!=i+1)
+            return i+1;
     }
-    if(*(nums+i)>1)
-        return 1;
-    ++i;
-    for(;i<numsSize;++i){
-        if(*(nums+i)-*(nums+i-1)>1)
-            return *(nums+i-1)+1;
-    }
-    return *(nums+numsSize-1)+1;
+    return numsSize+1;
+    
 }
 
 int main(void){
