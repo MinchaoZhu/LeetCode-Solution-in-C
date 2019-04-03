@@ -3,21 +3,30 @@
 
 
 bool canJump(int* nums, int numsSize) {
-        int next=0;
-        for(int i=0;i<numsSize;i++){
-            if(next>=numsSize-1) return true;
-            if(i==next) {
-                if(nums[i]==0) return false;
-                next=nums[i];
+    int maxDistance = 0;//the maxDistance we can reach before present position.
+    int pos = 0;
+    for(;pos<numsSize;++pos){
+        if(maxDistance>=numsSize-1)
+            return 1;
+        if(pos==maxDistance){
+            if(!nums[pos])//the fareset distance is not the end, so array is invalid.
+                return 0;
+            else{
+                maxDistance = pos+nums[pos];
             }
-            if(i+nums[i]>next) next=i+nums[i];
         }
-        return true;
+        else{
+            maxDistance = maxDistance>pos+nums[pos]?maxDistance:pos+nums[pos];
+        }
+    }
+    return 1;
 }
 
 int main(void){
-
-
+    int a[5] = {4,3,2,0,4};
+    int x;
+    x = canJump(a,5);
+    printf("%d\n",x);
 
     return 0;
 }
