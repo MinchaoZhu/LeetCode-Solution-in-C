@@ -3,26 +3,16 @@
 
 
 bool canJump(int* nums, int numsSize) {
-    bool posValid[numsSize-1];
-    bool valid = 0;
-    int pos = numsSize-2;
-    int i = 0;
-    for(;pos>=0;--pos){
-        posValid[pos] = 0;
-        if(!nums[pos])
-            continue;
-        for(i = 1;i<nums[pos]+1;++i){
-            if(pos+i>=numsSize-1){
-                posValid[pos] = 1;
-                break;
+        int next=0;
+        for(int i=0;i<numsSize;i++){
+            if(next>=numsSize-1) return true;
+            if(i==next) {
+                if(nums[i]==0) return false;
+                next=nums[i];
             }
-            if(posValid[pos+i]){
-                posValid[pos] = 1;
-                break;
-            }
+            if(i+nums[i]>next) next=i+nums[i];
         }
-    }
-    return posValid[0];
+        return true;
 }
 
 int main(void){
