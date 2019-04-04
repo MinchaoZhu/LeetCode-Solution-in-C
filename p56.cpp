@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 /**
  * Definition for an interval.
@@ -23,21 +24,32 @@ class Solution {
 public:
     vector<Interval> merge(vector<Interval>& intervals) {
         vector<Interval> result;
-        sort(intervals.begin(),intervals.end() ,cmp);
-        result.push_back(intervals[0]);
-        for(int i = 1;i<intervals.size();++i){
-            if(intervals[i].start<=result.back().end){
-                result.back().end = result.back().end>intervals[i].end?result.back().end:intervals[i].end;
+        if(intervals.size()<=1)
+            return intervals;
+        map<int,int> m;
+        for(int i = 0;i<intervals.size();++i){
+            if(m.find(intervals[i].start)==m.end())
+                m.insert(pair<int,int>(intervals[i].start,intervals[i].end));
+            else
+                m.find(intervals[i].start)->second = m.find(intervals[i].start)->second>intervals[i].end?m.find(intervals[i].start)->second:intervals[i].end;
+        }
+        map<int,int>::iterator mit = m.begin();
+        Interval temp;
+        temp.start = mit->first;
+        temp.end = mit->second;
+        ++mit;
+        result.push_back(temp);
+        for(;mit!=m.end();++mit){
+            if(mit->first<=result.back().end){
+                result.back().end = result.back().end>mit->second?result.back().end:mit->second;
             }
             else{
-                result.push_back(intervals[i]);
+                temp.start = mit->first;
+                temp.end = mit->second;
+                result.push_back(temp);
             }
         }
         return result;
-    }
-private:
-    static bool cmp(const Interval a, const Interval b){
-        return a.start>b.start;
     }
 };
 
