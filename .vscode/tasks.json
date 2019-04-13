@@ -6,11 +6,11 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "gcc",
+            "command": "g++",
             "args": [
                 // Ask msbuild to generate full paths for file names.
                 "-g",
-                "${fileBasenameNoExtension}.c",
+                "${fileBasenameNoExtension}.cpp",
                 "-o",
                 "${fileBasenameNoExtension}.o"
             ],
