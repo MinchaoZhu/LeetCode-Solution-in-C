@@ -47,6 +47,7 @@ struct ListNode* rotateRight(struct ListNode* head, int k) {
         temp = temp->next;
         ++size;
     }
+    if(size==0)return head;
     k = k%size;
     if(k==0)return head;
     temp = head;
@@ -59,9 +60,9 @@ struct ListNode* rotateRight(struct ListNode* head, int k) {
         newTail = newHead;
         newHead = newHead->next;
     }
-
-
-
+    tail->next = head;
+    newTail->next = NULL;
+    return newHead;
 }
 
 
