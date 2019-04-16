@@ -11,15 +11,17 @@ int climbStairs(int n) {
 */
 
 int climbStairs(int n) {
-    int table[n];
     if(n==1)return 1;
     if(n==2)return 2;
-    table[n-1] = 1;
-    table[n-2] = 2;
+    int step = 0;
+    int step1 = 1;
+    int step2 = 2;
     for(int i = n-3;i>=0;--i){
-        table[i] = table[i+1]+table[i+2];
+        step = step1+step2;
+        step1 = step2;
+        step2 = step;
     }
-    return table[0];
+    return step;
 
 }
 
