@@ -1,76 +1,84 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stdlib.h>
 
-int myAtoi(char* str) {
-    int returnNum = 0, count = 0;
-    bool sign = 0;
-    if(*str == 45||*str == 43||(*str>47&&*str<58)||*str == 32){
-        while(*str==32){
-            ++str;
-        }
-        if(*str == 45||*str == 43||(*str>47&&*str<58))
-        {
-            if(!*str)
-                return 0;
-            if(*str == 45){
-                sign = 1;
-                ++str;
-                if(!(*str>47&&*str<58)||!*str)  
-                    return 0;
-            }
-            else if(*str == 43){
-                ++str;
-                if(!(*str>47&&*str<58)||!*str)  
-                    return 0;            
-            }
-            while(*str&&*str == '0'){
-                ++str;
-                if((*str&&!(*str>47&&*str<58))||!*str) 
-                    return 0;
-            }
-            while(*str&&count<9){
-                returnNum *= 10;
-                returnNum += *str - 48;
-                ++count;
-                ++str;
-                if(!(*str>47&&*str<58)||!*str)   
-                    return sign?-1*returnNum:returnNum;// if the number ends when count is less than 10, output the number.];
-            }
-            if(*(str+1))
-                return 0;
-            if(!sign){//positive number
-                if(returnNum < INT_MAX/10)
-                    return returnNum*10+(*str-48);
-                else if(returnNum == INT_MAX/10)
-                    return (*str-48)>7?0:returnNum*10+(*str-48);
-                else
-                    return 0;
-            }
-            else{//negtive number
-                if(-1*returnNum > INT_MIN/10)
-                    return -1*(returnNum*10+(*str-48));
-                else if(-1*returnNum == INT_MIN/10)
-                    return (*str-48)==9?0:-1*(returnNum*10+(*str-48));
-                else
-                    return 0;
-            }
+bool validIntPlus(int num1, int num2){
+    if(num2<0){
+        if(num1>INT_MIN/10)return 1;   
+        else if(num1<INT_MIN/10)return 0;
+        else{
+            if(num2==-9)return 0;
+            else return 1;
         }
     }
-    else
+    else if(num2>0){
+        if(num1<INT_MAX/10)return 1;
+        else if(num1>INT_MAX/10)return 0;
+        else{
+            if(num2>=8)return 0;
+            else return 1;
+        }
+    }
+    else{
+        if(abs(num1)>INT_MAX/10)return 0;
+        else return 1;
+    }
+}
+
+int myAtoi(char* str) {
+    while(*str&&*str==' ')++str;
+    int result = 0;
+    if(!*str)return 0;
+    if(!(*str=='-'||*str=='+'||*str>='0'&&*str<='9'))
         return 0;
-    return 0;
+    bool sign = 0;//0 means positive, 1 means negative
+    if(*str=='-'){
+        sign = 1;
+        ++str;
+    }
+    else if(*str=='+'){
+        ++str;
+    }
+    while(*str&&*str=='0')++str;
+    if(sign){//negative
+        while(*str&&*str>='0'&&*str<='9'){
+            if(validIntPlus(result,-1*(*str-'0'))){
+                result *= 10;
+                result += -1*(*str-'0');
+            }
+            else return INT_MIN;
+            ++str;
+        }
+    }
+    else{//positive
+        while(*str&&*str>='0'&&*str<='9'){
+            if(validIntPlus(result,*str-'0')){
+                result *= 10;
+                result += *str-'0';
+            }
+            else return INT_MAX;
+            ++str;
+        }
+    }
+    return result;
 }
 
 
 
 
 int main(void){
-    char* s = "  00000000000 12345678";
+    
+    char* s = "  0000000000012345678";
     int i;
     i = myAtoi(s);
     printf("%d\n",i);
-
-
+    
+   /*
+   int a,b;
+   a = 214748364;
+   b = 0;
+   printf("%d\n",validIntPlus(a,b));
+    */
     return 0;
 }
