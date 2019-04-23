@@ -19,7 +19,7 @@ private:
             return;
         }
         else{
-            for(int cur = start;cur<n+1;++cur){
+            for(int cur = start;cur<n+1&&(cur+k)<=n+1;++cur){
                 temp.push_back(cur);
                 recur(result,temp,n,cur+1,k-1);
                 temp.pop_back();
