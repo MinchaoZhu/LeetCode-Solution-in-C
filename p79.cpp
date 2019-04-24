@@ -48,3 +48,20 @@ private:
         return 0;
     }
 };
+
+
+
+int main(void){
+    /**
+    vector<vector<char>> board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+    string words = "SEE";
+    */
+
+    vector<vector<char>> board = {{'a'}};
+    string words("b");
+    bool x;
+    Solution s;
+    x = s.exist(board,words);
+    cout<<x<<endl;
+    return 0;
+}
