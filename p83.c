@@ -46,14 +46,11 @@ void printList(struct ListNode * head){
 }
 
 struct ListNode* deleteDuplicates(struct ListNode* head) {
-    struct ListNode* left = head,*right;
-    while(left){
-        right = left;
-        while(right&&right->val==left->val){
-            right=right->next;
-        }
-        left->next = right;
-        left = right;
+    struct ListNode* left = head;
+    if(!head)return head;
+    while(left->next){
+        if(left->next->val==left->val)left->next = left->next->next;
+        else left = left->next;
     }
     return head;
 }
