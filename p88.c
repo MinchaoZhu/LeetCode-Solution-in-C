@@ -18,6 +18,16 @@ bool strEqual(char *s1, char *s2, int s1Start, int s1Len, int s2Start, int s2Len
 bool match(char *s1, char *s2, int s1Start, int s1Len, int s2Start, int s2Len){
     if(strEqual(s1,s2,s1Start,s1Len,s2Start,s2Len))return 1;
     if(s1Len!=s2Len)return 0;
+    int count[26] = {0};
+        for (int i = 0; i < 26; ++i)count[i] = 0;
+        for (int i = 0, j = 0; i < s1Len; ++i,++j) {
+           ++count[s1[s1Start+i] - 'a'];
+           --count[s2[s2Start+j] - 'a'];
+        }
+        for (int i = 0; i < 26; ++i) {
+           if (count[i] != 0) 
+               return 0;
+    }
     for(int leftLen = 1;leftLen<s1Len;++leftLen){
         if(match(s1,s2,s1Start,leftLen,s2Start,leftLen)
             &&match(s1,s2,s1Start+leftLen,s1Len-leftLen,s2Start+leftLen,s2Len-leftLen))return 1;
@@ -35,8 +45,8 @@ bool isScramble(char * s1, char * s2){
 
 
 int main(void){
-    char* s1 = "ccabcbabcbabbbbcbb",
-*s2="bbbbabccccbbbabcba";
+    char* s1 = "abc",
+*s2="acb";
     bool x;
     x = isScramble(s1,s2);
     printf("%d\n",x);
