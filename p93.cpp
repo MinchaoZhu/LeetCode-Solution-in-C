@@ -14,7 +14,7 @@ public:
 
 private:
     void generate(vector<string>& result, string& temp, string s, int k){
-        if(k==4){
+        if(k==5){
             if(s.length()==0)result.push_back(temp);
             else return ;
         }
@@ -28,15 +28,18 @@ private:
                     temp.erase(temp.length()-i,i);
                 }
             }
+            temp.erase(temp.end() - 1);
         }
     }
 
     bool validNum(string s){
+        if(s[0]=='0'&&s.length()>1)return 0;
         int n = 0;
         int i = 0;
         while(i<s.length()){
             n*=10;
             n+=s[i]-'0';
+            ++i;
         }
         if(n>255)return 0;
         else return 1;
@@ -49,7 +52,7 @@ private:
 int main(void){
     Solution s;
     //string ss = "25525511135";
-    string ss = "123";
+    string ss = "010010";
     vector<string> re;
     re = s.restoreIpAddresses(ss);
     for(int i = 0;i<re.size();++i){
