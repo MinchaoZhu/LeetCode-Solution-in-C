@@ -1,26 +1,24 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
+// 有关 tasks.json 格式的文档，请参见
+    // https://go.microsoft.com/fwlink/?LinkId=733558
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
             "type": "shell",
-            "command": "gcc",
+            "label": "g++.exe build active file",
+            "command": "C:\\MinGW\\bin\\g++.exe",
             "args": [
-                // Ask msbuild to generate full paths for file names.
                 "-g",
-                "${fileBasenameNoExtension}.c",
+                "${file}",
                 "-o",
-                "${fileBasenameNoExtension}.o"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
-            "group": "build",
-            "presentation": {
-                // Reveal the output only if unrecognized errors occur.
-                "reveal": "silent"
+            "options": {
+                "cwd": "C:\\MinGW\\bin"
             },
-            // Use the standard MS compiler pattern to detect errors, warnings and infos
-            "problemMatcher": "$msCompile"
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }
