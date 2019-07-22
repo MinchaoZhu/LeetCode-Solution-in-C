@@ -1,24 +1,13 @@
 int canCompleteCircuit(int* gas, int gasSize, int* cost, int costSize){
-    int balance[gasSize];
-    for(int i = 0;i<gasSize;++i){
-        balance[i] = gas[i]-cost[i];
-    }
-    int result = 0, nowGas, i = 0;
-    for(;i<gasSize;++i){
-        nowGas = balance[i];
-        if(nowGas<0)continue;
-        int j = 1;
-        for(;j<gasSize;++j){
-            nowGas+=balance[(i+j)%gasSize];
-            if(nowGas<0)break;;
-        }
-        if(j==gasSize&&nowGas>=0){
-            return i;
+    int min = 0, nowGas = 0, minIndex = 0;
+    for(int i = 0; i<gasSize;++i){
+        nowGas += gas[i]-cost[i];
+        if(nowGas<min){
+            minIndex = i+1;
+            min = nowGas;
         }
     }
-    if(i == gasSize&&nowGas<0)
-        result = -1;
-    return result;
+    return nowGas>=0?minIndex:-1;
 }
 
 
