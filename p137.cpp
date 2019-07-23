@@ -2,23 +2,44 @@
 #include <vector>
 using namespace std;
 
+
+/**
+ * Two One B Two+ One+
+
+    0  0  0  0  0
+
+    0  0  1  0  1
+
+    0  1  0  0  1
+
+    0  1  1  1  0
+
+    1  0  0  1  0
+
+    1  0  1  0  0
+
+    1  1  0  X  X
+
+    1  1  1  X  X
+
+    using two bit set to calculate the appearance of 1 in every bit.
+    00 0
+    01 1
+    10 2
+
+    So, 10 + 1 -> 00
+
+ */
+
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        map<int,int> numsMap;
-        int result;
-        for(auto num : nums){
-            if(numsMap.find(num)==numsMap.end()){
-                numsMap.insert(pair<int,int>(num,1));
-            }
-            else{
-                numsMap.find(num)->second += 1;
-            }
+        int one = 0, two = 0;
+        int numsSize = nums.size();
+        for (int i = 0; i < numsSize; i++){
+            one = (~two) & (one ^ nums[i]);
+            two = (~one) & (two ^ nums[i]);
         }
-        for(auto iter : numsMap){
-            if(iter.second==1)
-                result = iter.first;
-        }
-        return result;
+        return one;
     }
 };
