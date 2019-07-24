@@ -3,32 +3,29 @@
 #include <iostream>
 using namespace std;
 
-#define UNKOWN 0
-#define POSITIVE 1
-#define NEGTIVE 2
 
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        vector<int> memo(s.length(),0);
-        return wordBreakSub(s,wordDict,memo);
-    }
-
-private:
-    bool wordBreakSub(string& s, vector<string>& wordDict, vector<int>& memo, int start){
-        if(s.length()<start) return 1;
-        if(memo[start]!=0) return memo[start];
-        for(int len = 1;len<=s.length()-start;++len){
-            if(inDict(s,start,len,wordDict)){
-                if(wordBreakSub(s,wordDict,memo,start+len)){
-                    memo[start] = POSITIVE;
-                    return 1;
+        int strlen = s.length(), cur = strlen-1;
+        if(strlen<=0) return 0;
+        vector<int> memo(strlen+1,0);
+        memo[strlen] = 1;
+        for(;cur>=0;--cur){
+            for(int len = 1;len<=strlen-cur;++len){
+                if(inDict(s,cur,len,wordDict)){
+                    if(memo[cur+len]==1){
+                        memo[cur] = 1;
+                        break;
+                    }
                 }
             }
         }
-        memo[start] = NEGTIVE;
-        return 0;
+        return memo[0];
     }
+
+private:
+
 
     bool inDict(string& s, int start, int len, vector<string>& wordDict){
         string subStr = s.substr(start,len);
@@ -42,7 +39,7 @@ private:
 
 
 int main(void){
-    string s = "catsandog";
+    string s = "applepenapple";
     vector<string> wordDict = {"apple", "pen","cats", "dog", "sand", "and", "cat"};
     int value;
     Solution ss;
