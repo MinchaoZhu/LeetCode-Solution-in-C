@@ -15,9 +15,9 @@ public:
         vector<int> memo(strlen+1,0);
         memo[strlen] = 1;
         for(;cur>=0;--cur){
-            for(int len = 1;len<=strlen-cur;++len){
-                if(strSet.find(s.substr(cur,len))!=strSet.end()){
-                    if(memo[cur+len]==1){
+            for(int i = cur+1;i<=strlen;++i){
+                if(memo[i]==1){
+                    if(strSet.find(s.substr(cur,i-cur))!=strSet.end()){
                         memo[cur] = 1;
                         break;
                     }
@@ -30,7 +30,7 @@ public:
 
 
 int main(void){
-    string s = "applepenapple";
+    string s = "dogandog";
     vector<string> wordDict = {"apple", "pen","cats", "dog", "sand", "and", "cat"};
     int value;
     Solution ss;
