@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <set>
 #include <iostream>
 using namespace std;
 
@@ -9,11 +10,13 @@ public:
     bool wordBreak(string s, vector<string>& wordDict) {
         int strlen = s.length(), cur = strlen-1;
         if(strlen<=0) return 0;
+        set<string> strSet;
+        strSet.insert(wordDict.begin(),wordDict.end());
         vector<int> memo(strlen+1,0);
         memo[strlen] = 1;
         for(;cur>=0;--cur){
             for(int len = 1;len<=strlen-cur;++len){
-                if(inDict(s,cur,len,wordDict)){
+                if(strSet.find(s.substr(cur,len))!=strSet.end()){
                     if(memo[cur+len]==1){
                         memo[cur] = 1;
                         break;
@@ -22,18 +25,6 @@ public:
             }
         }
         return memo[0];
-    }
-
-private:
-
-
-    bool inDict(string& s, int start, int len, vector<string>& wordDict){
-        string subStr = s.substr(start,len);
-        for(auto str : wordDict){
-            if(str.compare(subStr)==0)
-                return 1;
-        }
-        return 0;
     }
 };
 
@@ -45,4 +36,5 @@ int main(void){
     Solution ss;
     value = ss.wordBreak(s,wordDict);
     cout<<value<<endl;
+    return 0;
 }
