@@ -7,26 +7,42 @@ class Solution {
 public:
     vector<string> wordBreak(string s, vector<string>& wordDict) {
         set<string> strSet(wordDict.begin(),wordDict.end());
-        vector<string> result;
-        string temp;
-        dfs(result,s,temp,strSet,0);
-        return result;
-    }
-
-private:
-    void dfs(vector<string>& result, string& s, string& temp, set<string>& strSet, int start){
-        if(start>=s.length()){
-            temp.erase(temp.end()-1);
-            result.emplace_back(temp);
-            temp.append(" ");
-        }
-        for(int len = 1;len<s.length()-start+1;++len){
-            string subStr = s.substr(start,len);
-            if(strSet.find(subStr)!=strSet.end()){
-                temp.append(subStr+" ");
-                dfs(result,s,temp,strSet,start+len);
-                temp.erase(temp.end()-len-1,temp.end());
+        int strlen = s.length();
+        vector<vector<string>> result(strlen+1);
+        if(!canWordBreak(s,wordDict,strSet)) return result[0];
+        vector<int> memo(strlen+1,0);
+        memo[strlen] = 1;
+        for(int start = strlen-1; start>=0;--start){
+            for(int len = 1;len<=strlen-start;++len){
+                if(memo[start+len]==1&&strSet.find(s.substr(start,len))!=strSet.end()){
+                    memo[start] = 1;
+                    if(result[start+len].size()==0) result[start].emplace_back(s.substr(start,len));
+                    for(int i = 0;i<result[start+len].size();++i){
+                        string temp = s.substr(start,len);
+                        temp.append(" "+result[start+len][i]);
+                        result[start].emplace_back(temp);
+                    }
+                }                
             }
         }
+        return result[0];
+    }
+private:
+    bool canWordBreak(string s, vector<string>& wordDict, set<string>& strSet) {
+        int strlen = s.length(), cur = strlen-1;
+        if(strlen<=0) return 0;
+        vector<int> memo(strlen+1,0);
+        memo[strlen] = 1;
+        for(;cur>=0;--cur){
+            for(int i = cur+1;i<=strlen;++i){
+                if(memo[i]==1){
+                    if(strSet.find(s.substr(cur,i-cur))!=strSet.end()){
+                        memo[cur] = 1;
+                        break;
+                    }
+                }
+            }
+        }
+        return memo[0];
     }
 };
