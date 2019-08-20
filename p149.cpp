@@ -4,26 +4,24 @@
 #include <iostream>
 using namespace std;
 
-
 class Solution {
 public:
     int maxPoints(vector<vector<int>>& points) {
-        int size = points.size();
-        int ret = 0;
         map<pair<int,int>,int> m;
-        if(size>2){
-            for(int i = 0;i<=size-ret;++i){
+        int size = points.size(),ret=0;
+        if(size>2){ 
+            for(int i = 0;i<size-ret;++i){
                 m.clear();
-                int repeat = 1;
+                int repeats = 1;
                 for(int j = i+1;j<size;++j){
-                    if(points[i]==points[j])++repeat;
-                    else{
-                        int t = (++m[slope(points[i],points[j])]);
-                        ret = ret>(t+repeat)?ret:(t+repeat);
+                    if(points[j]!=points[i]){
+                        int temp = ++m[slope(points[i],points[j])];
+                        ret = ret>temp+repeats?ret:temp+repeats;
                     }
+                    else ++repeats;
                 }
-                ret = ret>repeat?ret:repeat;
-                for(auto mItr : m) ret = ret>mItr.second+repeat?ret:mItr.second+repeat;
+                ret = ret>repeats?ret:repeats;
+                for(auto itr:m) ret = ret>itr.second+repeats?ret:itr.second+repeats;
             }
             return ret;
         }
@@ -31,27 +29,24 @@ public:
     }
 
 private:
-    pair<int,int> slope(vector<int> p0, vector<int> p1)
-    {   
-        int dx = p0[0]-p1[0], dy = p0[1]-p1[1];
-        int gcdNum = gcd(abs(dx), abs(dy));
+    pair<int,int> slope(const vector<int>& a, const vector<int>& b){
+        int dx = a[0]-b[0], dy = a[1]-b[1];
+        int gcdNum = gcd(dx,dy);
         dx = dx/gcdNum, dy = dy/gcdNum;
         if(dx<0){
             dx = -dx;
             dy = -dy;
         }
-        else if(dx == 0&&dy!=0){
-            dy = 1;
-        }
-        if(dy==0&&dx!=0){
-            dx = 1;
-        }
-        return pair<int,int>(dx,dy);
+        return make_pair(dx,dy);
     }
 
-    int gcd(int a, int b){
-        return b==0?a:gcd(b, a%b);
+    int gcd(int a, int b)
+    {
+        if (b)
+            while((a %= b) && (b %= a));
+        return a + b;
     }
+
 };
 
 
