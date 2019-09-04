@@ -1,55 +1,49 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-int isPalindrome();
-char* longestPalindrome();
 
 
-int isPalindrome(char *s, int len){
-    char * head = s, * tail = s + len - 1;
-    if(!len)
-        return 0;
-    while(head <= tail){
-        if(*head == *tail){
-            ++head;
-            --tail;
+char * longestPalindrome(char * s){
+    int len = strlen(s);
+    if(len>0){
+        char* isPalind = malloc(sizeof(char)*(len*len));
+        int begin = 0;
+        int max = 1;
+        for(int i = 0;i<len;++i){
+            *(isPalind+i*len+i) = 1;
         }
-        else{
-            return 0;
-        }
-    }
-    return len;
-}
-
-
-char* longestPalindrome(char* s) {
-    int subStrLen = 1, maxLen=0, temp;
-    char * longestStr, * returnStr;
-    if(!*s)
-        return s;
-    while(*s){
-        while(*(s+subStrLen-1)){
-            temp =isPalindrome(s,subStrLen);
-            if(temp > maxLen){
-                maxLen = subStrLen;
-                longestStr = s;
+        
+        for(int i = len-1;i>=0;--i){
+            for(int j = i+1;j<len;++j){
+                *(isPalind+i*len+j) = 0;
+                if(s[i]==s[j]){
+                    if(i+1==j||(j>i+1&&*(isPalind+(i+1)*len+j-1))){
+                        *(isPalind+i*len+j) = 1;
+                        if(j-i+1>max){
+                            begin = i;
+                            max = j-i+1;
+                        }
+                    }
+                }
             }
-            ++subStrLen;
         }
-        subStrLen = 1;
-        ++s;
+        char* str = (char*)malloc((max+1)*sizeof(char));
+        free(isPalind);
+        memcpy(str,s+begin,sizeof(char)*max);
+        str[max] = '\0';
+        return str;
     }
-    returnStr = (char*)malloc((maxLen+1)*sizeof(char));
-    memcpy(returnStr,longestStr,maxLen);
-    *(returnStr+maxLen) = '\0';
-    return returnStr;
-
+    else 
+        return s;
 }
+
 
 int main(void){
-    char * s = "bcbd";
-    printf("%s\n",longestPalindrome(s));
+    char * s = "abcda";
+
+    char * str  = longestPalindrome(s);
+    printf("%s\n",str);
+
 
     return 0;
 }
