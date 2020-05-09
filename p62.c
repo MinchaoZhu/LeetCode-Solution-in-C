@@ -12,46 +12,64 @@ int uniquePaths(int m, int n) {
 }
 */
 
-int uniquePaths(int m, int n){
-    int table[m][n];
-    int i,j;
-    for(i=0;i<n;++i){
-        table[m-1][i] = 1;
-    }
-    for(i=0;i<m;++i){
-        table[i][n-1] = 1;
-    }
-    if(m==1||n==1)return 1;
-    --m;
-    --n;
-    while(m>0&&n>0){
-        for(i = n-1;i>=0;--i){
-            table[m-1][i] = table[m][i]+table[m-1][i+1];
-        }
-        for(i = m-2;i>=0;--i){
-            table[i][n-1] = table[i+1][n-1]+table[i][n];
-        }
-        --m;--n;
-    }
-    if(m==0){
-        if(n!=0){
-            for(i = n-1;i>=0;--i){
-                table[0][i] = table[1][i]+table[0][i+1];
-            }
-            return table[0][0];
-        }
-        if(n==0)
-            return table[1][0]+table[0][1];
-    }
-    if(m!=0){
-        for(i = m-1;i>=0;--i){
-            table[i][0] = table[i+1][0]+table[i][1];
-        }        
-        return table[0][0];
-    }
-    return table[0][0];
-}
+// int uniquePaths(int m, int n){
+//     int table[m][n];
+//     int i,j;
+//     for(i=0;i<n;++i){
+//         table[m-1][i] = 1;
+//     }
+//     for(i=0;i<m;++i){
+//         table[i][n-1] = 1;
+//     }
+//     if(m==1||n==1)return 1;
+//     --m;
+//     --n;
+//     while(m>0&&n>0){
+//         for(i = n-1;i>=0;--i){
+//             table[m-1][i] = table[m][i]+table[m-1][i+1];
+//         }
+//         for(i = m-2;i>=0;--i){
+//             table[i][n-1] = table[i+1][n-1]+table[i][n];
+//         }
+//         --m;--n;
+//     }
+//     if(m==0){
+//         if(n!=0){
+//             for(i = n-1;i>=0;--i){
+//                 table[0][i] = table[1][i]+table[0][i+1];
+//             }
+//             return table[0][0];
+//         }
+//         if(n==0)
+//             return table[1][0]+table[0][1];
+//     }
+//     if(m!=0){
+//         for(i = m-1;i>=0;--i){
+//             table[i][0] = table[i+1][0]+table[i][1];
+//         }        
+//         return table[0][0];
+//     }
+//     return table[0][0];
+// }
 
+
+
+// dp
+int uniquePaths(int m, int n){
+    int dp[m][n];
+    for(int i = 0; i<m;++i){
+        dp[i][0] = 1;
+    }
+    for(int j = 0; j<n;++j){
+        dp[0][j] = 1;
+    }
+    for(int i = 1; i<m; ++i){
+        for(int j = 1; j<n;++j){
+            dp[i][j] = dp[i-1][j] + dp[i][j-1];
+        }
+    }
+    return dp[m-1][n-1];
+}
 
 int main(void){
     int sum = 0;
