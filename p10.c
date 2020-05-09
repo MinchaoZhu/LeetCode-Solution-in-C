@@ -1,84 +1,61 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
-bool isMatch(char* s, char* p);
-
-bool isMatch(char* s, char* p) {
-    char ch1,ch2,*sPrePointer;
-    int i = 0;
-    if(!*p){
-        if(!*s)
-            return 1;
-        else
-            return 0;
+bool isMatch(char * s, char * p){
+    int sLen = strlen(s), pLen = strlen(p);
+    bool dp[sLen+1][pLen+1];
+    dp[0][0] = true;
+    //s[0,i-1] matching empty string
+    for(int i = 1; i<=sLen;++i){ 
+        dp[i][0] = false;
     }
-    while(*p){//Every loop is s to p;
-        ch1 = *p;
-        if(!*s){
-            while(*p&& *p == '*'){
-                ++p;
-            }
-            if(*p)
-                return 0;
-            else
-                return 1;
+    //empty string matching p[0,j-1]
+    for(int j = 1; j<=pLen;++j){
+        dp[0][j] = false;
+        if(p[j-1]=='*'&&j>=2){
+            dp[0][j] = dp[0][j-2];
         }
-        if(ch1 == '.'){
-            if(*(p+1)){
-                if(*(p+1) == '*'){
-                    p+=2;
-                    while(*p&&*p=='*'){
-                        ++p;
+    }
+
+    //s[0,i-1] matching p[0, j-1]
+    for(int i = 1; i<=sLen; ++i){
+        for(int j = 1; j<=pLen; ++j){
+            dp[i][j] = false;
+            //if p[j-1] is *
+            if(p[j-1]=='*'&&j>=2){
+                if(s[i-1] != p[j-2] && p[j-2] != '.'){
+                    // if a in 'a*' doesn't match 
+                    // 'a*' repeats zero times, and should match s[0,i-1] and p[0, j-3]
+                    if(j>=3){
+                        dp[i][j] = dp[i][j-2];
                     }
-                    if(*p)
-                        return 0;    
-                    else 
-                        return 1;
+                }
+                else{
+                    bool flag = false;
+                    flag = flag || dp[i][j-2];// 'a*' repeats 0 times
+                    flag = flag || dp[i-1][j-1];// 'a*' repeats 1 time
+                    flag = flag || dp[i-1][j];// 'a*' repeats multiple times 
+                    dp[i][j] = flag;
                 }
             }
-            ++p;
-            ++s;
-        }
-        else if(ch1 == '*'){
-            ch1 = *(p-1);
-            sPrePointer = s;    
-            while(*s&&*s == ch1)
-                ++s;
-            ++p;
-            if(*(s-1)!=ch1)
-                continue;
-            while(*p&&*(p+1)&&*(p+1)=='*'){
-                p += 2;
+            else if(p[j-1]=='.'){
+                if(i>=1)
+                    dp[i][j] = dp[i-1][j-1];
             }
-            while(*p&&*(p+i)&&*(p+i)==ch1){
-                --s;
-                ++i;
-                if(s<sPrePointer)
-                    return 0;
+            else{//if p[j-1] is alphabet char
+                if(i>=1)
+                    dp[i][j] = dp[i-1][j-1]&&(s[i-1]==p[j-1]);
             }
-        }
-        else{
-            if(*(p+1)&&*(p+1)=='*'){
-                ++p;
-                continue;
-            }
-            if(*s&&*s != ch1)
-                return 0;
-            ++s;
-            ++p;
         }
     }
-    if(*s)
-        return 0;
-    else    
-        return 1;
+    return dp[sLen][pLen];
 }
 
-
-
 int main(void){
-    char * s = "aaab";
-    char * p = "c*ab*a*aab";
+    char * s = "aasdfasdfasdfasdfas";
+    char * p = "aasdf.*asdf.*asdf.*asdf.*s";
     int t = isMatch(s,p);
     printf("%d\n",t);
     return 0;
