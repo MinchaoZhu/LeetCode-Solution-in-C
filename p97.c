@@ -3,23 +3,25 @@
 #include <stdbool.h>
 
 
-bool dfs(char *s1,char *s2, char *s3, int i1, int i2, int i3){
-    int len1 = strlen(s1), len2 = strlen(s2), len3 = strlen(s3);
-    if(i3==len3-1)return i1==len1-1?*(s3+i3)==*(s1+i1):*(s3+i3)==*(s2+i2);
-    if(*(s1+i1)==*(s3+i3)){
-        if(dfs(s1,s2,s3,i1+1,i2,i3+1)) return 1;
-    }
-    if(*(s2+i2)==*(s3+i3)){
-        if(dfs(s1,s2,s3,i1,i2+1,i3+1)) return 1;
-        
-    }
-    return 0;
-}
-
 bool isInterleave(char * s1, char * s2, char * s3){
-    if(strlen(s1)==0&&strlen(s2)==0&&strlen(s3)==0)return 1;
-    if(strlen(s3)!=strlen(s1)+strlen(s2))return 0;
-    return dfs(s1,s2,s3,0,0,0);
+    int l1 = strlen(s1), l2 = strlen(s2), l3 = strlen(s3);
+    if(l1+l2==l3){
+        bool dp[l1+1][l2+1];
+        dp[l1][l2] = 1;
+        for(int m = 0; m<l1; ++m){
+            dp[m][l2] = !(strcmp(s1+m, s3+(l3-l1+m)));
+        }
+        for(int n = 0; n<l2; ++n){
+            dp[l1][n] = !(strcmp(s2+n, s3+(l3-l2+n)));
+        }
+        for(int m = l1-1; m>=0; --m){
+            for(int n = l2-1; n>=0; --n){
+                dp[m][n] = ((s1[m]==s3[m+n])&&dp[m+1][n])||((s2[n]==s3[m+n])&&dp[m][n+1]);
+            }
+        }
+        return dp[0][0];
+    }
+    return false;
 }
 
 
