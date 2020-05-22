@@ -19,6 +19,38 @@ int maxProfit(int* p, int size){
     else return 0;
 }
 
+
+// DP
+
+// int maxProfit(int* prices, int pricesSize){
+//     if(pricesSize<2) return 0;
+//     int left[pricesSize], right[pricesSize];
+    
+//     int minPrice = INT_MAX, maxProfit = 0; 
+//     for(int i = 0; i<pricesSize; ++i){
+//         minPrice = minPrice<prices[i]?minPrice:prices[i];
+//         maxProfit = maxProfit>(prices[i]-minPrice)?maxProfit:(prices[i]-minPrice);
+//         left[i] = maxProfit;
+//     }
+    
+//     int maxPrice = 0;
+//     maxProfit = 0;
+//     for(int j = pricesSize-1; j>=0; --j){
+//         maxPrice = maxPrice>prices[j]?maxPrice:prices[j];
+//         maxProfit = maxProfit>(maxPrice-prices[j])?maxProfit:(maxPrice-prices[j]);
+//         right[j] = maxProfit;
+//     }
+    
+//     maxProfit = right[0];
+//     for(int i = 0; i<pricesSize-1; ++i){
+//         maxProfit = maxProfit>(left[i]+right[i+1])?maxProfit:(left[i]+right[i+1]);
+        
+//     }
+    
+//     return maxProfit;
+// }
+
+
 int main(void){
     int p[8] = {3,3,5,0,0,3,1,4};
     int max = maxProfit(p,8);
