@@ -19,3 +19,14 @@ int maxProfit(int* prices, int size){
     return profit;
 }
 
+
+// dp
+// int maxProfit(int* prices, int pricesSize){
+//     int maxProfit = 0, minPrice = INT_MAX;
+//     for(int i = 0; i<pricesSize; ++i){
+//         minPrice = minPrice<prices[i]?minPrice:prices[i];
+//         int tmp = prices[i] - minPrice;
+//         maxProfit = maxProfit>tmp?maxProfit:tmp;
+//     }
+//     return maxProfit;
+// }
