@@ -45,3 +45,62 @@ private:
         return memo[0];
     }
 };
+
+
+// DFS
+// class Solution {
+// public:
+//     vector<string> wordBreak(string s, vector<string>& wordDict) {
+//         if(s.length()>0&&canBeBreaked(s, wordDict)){
+//             vector<string> result;
+//             vector<vector<bool>> mem(s.length(), vector<bool>());
+//             string tmp = "";
+//             set<string> dict;
+//             dict.insert(wordDict.begin(), wordDict.end());
+//             for(int i = 0; i<s.length(); ++i){
+//                 mem[i].resize(s.length());
+//             }
+//             dfs(result, dict, mem, tmp, s, 0);
+//             return result;
+//         }
+//         else return vector<string>();
+//     }
+
+// private:
+//     void dfs(vector<string>& result, set<string>& dict, vector<vector<bool>>& mem, string tmp, string& s, int start){
+//         if(start == s.length()){
+//             result.emplace_back(tmp.substr(0, tmp.length()-1));
+//         }
+//         else{
+//             for(int i = start; i<s.length(); ++i){
+//                 string str = tmp;
+//                 if(mem[start][i]||dict.find(s.substr(start, i-start+1))!=dict.end()){
+//                     str = str + s.substr(start, i-start+1) + " ";
+//                     mem[start][i] = true;
+//                     dfs(result, dict, mem, str, s, i+1);
+//                 }
+//             }    
+//         }
+//     }
+                                    
+//     bool canBeBreaked(string s, vector<string>& wordDict) {
+//         if(s.length()>0){
+//             bool dp[s.length()];
+//             set<string> strs;
+//             strs.insert(wordDict.begin(), wordDict.end());
+//             dp[0] = strs.find(s.substr(0, 1))!=strs.end();
+
+//             for(int i = 1; i<s.length(); ++i){
+//                 dp[i] = strs.find(s.substr(0, i+1))!=strs.end();
+//                 for(int j = i; j>0; --j){
+//                     if(strs.find(s.substr(j, i-j+1))!=strs.end() && dp[j-1]){
+//                         dp[i] = true;
+//                         break;
+//                     }
+//                 }
+//             }
+//             return dp[s.length()-1];
+//         }
+//         else return 0;
+//     }
+// };
