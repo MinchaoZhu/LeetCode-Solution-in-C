@@ -29,6 +29,33 @@ public:
 };
 
 
+// dp Solution
+// class Solution {
+// public:
+//     bool wordBreak(string s, vector<string>& wordDict) {
+//         if(s.length()>0){
+//             bool dp[s.length()];
+//             set<string> strs;
+//             strs.insert(wordDict.begin(), wordDict.end());
+//             dp[0] = strs.find(s.substr(0, 1))!=strs.end();
+
+//             for(int i = 1; i<s.length(); ++i){
+//                 dp[i] = strs.find(s.substr(0, i+1))!=strs.end();
+//                 for(int j = i; j>0; --j){
+//                     if(strs.find(s.substr(j, i-j+1))!=strs.end() && dp[j-1]){
+//                         dp[i] = true;
+//                         break;
+//                     }
+//                 }
+//             }
+//             return dp[s.length()-1];
+//         }
+//         else return 0;
+//     }
+// };
+
+
+
 int main(void){
     string s = "dogandog";
     vector<string> wordDict = {"apple", "pen","cats", "dog", "sand", "and", "cat"};
