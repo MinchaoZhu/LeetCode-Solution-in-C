@@ -28,8 +28,8 @@ int maxProfit(int k, int* prices, int pricesSize){
             dp[i][0] = 0;
             int balance = 0-prices[0]; 
             for(int j = 1; j<pricesSize; ++j){
-                dp[i][j] = dp[i][j-1]>balance+prices[j]?dp[i][j-1]:balance+prices[j];
-                balance = balance > (dp[i-1][j-1] - prices[j])?balance:(dp[i-1][j-1] - prices[j]);    
+                dp[i][j] = dp[i][j-1]>balance+prices[j]?dp[i][j-1]:balance+prices[j];//取前一天结果VS在这一天卖掉
+                balance = balance > (dp[i-1][j-1] - prices[j])?balance:(dp[i-1][j-1] - prices[j]);//为下一天可能的卖出股票更新一下余额    
             }    
         }
         return dp[k-1][pricesSize-1];
