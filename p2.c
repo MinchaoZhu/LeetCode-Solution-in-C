@@ -6,6 +6,42 @@
  */
 
 
+
+// Simple iteration
+// https://leetcode.com/problems/add-two-numbers/discuss/665458/C%2B%2B-simple-iteration-solution-96
+// class Solution {
+// public:
+//     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+//         ListNode* head = new ListNode();
+//         ListNode* current = head;
+        
+//         int d = 0;
+//         while(l1||l2){
+//             d += l1?l1->val:0;
+//             d += l2?l2->val:0;
+//             l1 = l1?l1->next:l1;
+//             l2 = l2?l2->next:l2;
+//             current -> next = new ListNode(d%10);
+//             current = current -> next;
+//             d = d/10;
+//         }
+        
+//         if(d>0){
+//             current -> next = new ListNode(d);
+//         }
+//         current = head -> next;
+//         delete(head);
+        
+//         return current;
+//     }
+// };
+
+
+
+
+
+
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
