@@ -7,6 +7,35 @@
 
 #include <stdio.h>
 
+
+// class Solution {
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         vector<int> last(128, -1);
+//         int maxLen = 0;
+//         int currentLen = 0;
+//         int currentStart = 0;
+        
+//         for(int i = 0; i<s.length(); ++i){
+//             if(last[s[i]] < currentStart){
+//                 currentLen = i - currentStart + 1;
+//             }
+//             else if(last[s[i]] == currentStart){
+//                 currentStart += 1;
+//             }
+//             else{
+//                 currentStart = last[s[i]] + 1;
+//                 currentLen = i - currentStart +1;
+//             }
+//             maxLen = max(maxLen, currentLen);
+//             last[s[i]] = i;
+//         }
+        
+        
+//         return maxLen;
+//     }
+// };
+
 int lengthOfLongestSubstring(char* s)
 {
     int len=0;
