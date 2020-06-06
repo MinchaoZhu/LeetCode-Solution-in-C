@@ -3,6 +3,47 @@
 #include <stdbool.h>
 #include <string.h>
 
+
+// class Solution {
+// public:
+//     vector<vector<int>> threeSum(vector<int>& nums) {
+//         vector<vector<int>> result;
+//         sort(nums.begin(), nums.end());
+//         int rMax = nums.size()-2;
+//         for(int i = 0; i<rMax&&nums[i]<=0; ++i){
+//             if(i==0||nums[i]!=nums[i-1]){
+//                 twoSum(nums, result, i);
+//             }
+//         }
+        
+        
+//         return result;
+//     }
+    
+// private:
+//     void twoSum(vector<int>& nums, vector<vector<int>>& result, int i){
+//         int l = i + 1, r = nums.size() - 1;
+        
+//         while(l < r){
+//             int sum = nums[l] + nums[r] + nums[i];
+//             if(sum < 0 || (l>i+1 && nums[l] == nums[l-1])){
+//                 ++l;
+//             }
+//             else if(sum > 0 || (r < nums.size() - 1 && nums[r] == nums[r+1])){
+//                 --r;
+//             }
+//             else{
+//                 result.emplace_back(vector<int>({nums[i], nums[l++], nums[r--]}));
+//             }
+            
+//         }
+        
+        
+//     }
+    
+// };
+
+
 typedef struct hashTable{
     int value;
     unsigned char mOne; //no existence 0, and then means mOne of existence
