@@ -3,6 +3,46 @@
 #include <vector>
 #include <map>
 using namespace std;
+
+
+
+
+
+// sort
+// class Solution {
+// public:
+//     static bool cmp(const vector<int>& v1, const vector<int>& v2){
+//         return v1[0] < v2[0];    
+//     }
+    
+//     vector<vector<int>> merge(vector<vector<int>>& intervals) {
+//         if(intervals.size() > 1){
+//             sort(intervals.begin(), intervals.end());
+//             vector<vector<int>> result;
+            
+//             vector<int> latest = intervals[0];
+            
+//             for(int i = 1; i<intervals.size(); ++i){
+//                 if(latest[1] < intervals[i][0]){
+//                     result.emplace_back(latest);
+//                     latest = intervals[i];
+//                 }
+//                 else{
+//                     latest[1] = max(latest[1], intervals[i][1]);
+//                 }
+//             }
+        
+//             result.emplace_back(latest);
+//             return result;
+//         }
+//         else return intervals;
+//     }
+// };
+
+
+
+
+
 /**
  * Definition for an interval.
  * struct Interval {
