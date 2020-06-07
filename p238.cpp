@@ -29,3 +29,28 @@ public:
         
     }
 };
+
+
+
+// O(1) space
+// class Solution {
+// public:
+//     vector<int> productExceptSelf(vector<int>& nums) {
+//         if(nums.size()>1){
+//             vector<int> result(nums.size(),1);
+//             int l = 1,  r = 1;
+            
+            
+//             for(int i = 0; i<nums.size(); ++i){
+//                 result[i] = l;
+//                 l *= nums[i];
+//             }
+//             for(int j = nums.size()-1; j>=0; --j){
+//                 result[j] *= r;
+//                 r *= nums[j];
+//             }
+//             return result;
+//         }
+//         else return vector<int>();
+//     }
+// };
