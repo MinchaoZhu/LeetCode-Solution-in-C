@@ -4,6 +4,72 @@
 using namespace std;
 
 
+// class Solution {
+// public:
+//     vector<string> fullJustify(vector<string>& words, int maxWidth) {
+//         int size = words.size();
+//         vector<int> len(size);
+//         for(int i = 0; i<size; ++i){
+//             len[i] = words[i].length();
+//         }
+        
+//         vector<string> result;
+//         helper(result, words, len, maxWidth, 0, 0, 0);
+        
+//         return result;
+//     }
+    
+// private:
+//     void helper(vector<string>& result, vector<string>& words, vector<int>& len, int maxWidth, int start, int next, int currentLen){
+//         if(next >= len.size()){
+//             string tmp = "" + words[start];
+//             if(start < len.size() - 1){
+//                 for(int i = start + 1; i<words.size() - 1; ++i){
+//                     tmp += " ";
+//                     tmp += words[i];
+//                 }
+//                 tmp += " ";
+//                 tmp += words[words.size() - 1];
+//             }
+            
+//             tmp.append(maxWidth - tmp.size(), ' ');
+            
+//             result.emplace_back(tmp);
+//         }
+//         else if(currentLen + len[next] + (next - start) > maxWidth){//can not append one more word
+//             // valid string:  start, start + 1, ... , next - 1
+//             string tmp = ""+words[start];;
+//             int space = maxWidth - currentLen;
+//             if(next - start == 1){
+//                 tmp.append(space, ' ');
+//             }
+//             else{
+//                 int intervals = next - start - 1;
+                
+//                 int ave = space / intervals;
+//                 int big = space - ave * intervals;
+
+//                 for(int i = start + 1; i < next - 1; ++i){
+//                     tmp.append(big-->0?1+ave:ave, ' ');
+//                     tmp += words[i];
+//                 }
+//                 tmp.append(ave, ' ');
+//                 tmp += words[next - 1];
+//             }
+            
+//             result.emplace_back(tmp);
+//             helper(result, words, len, maxWidth, next, next, 0);
+//         }
+//         else{ // append more
+
+
+//             helper(result, words, len, maxWidth, start, next + 1, currentLen + len[next]);
+
+//         }
+//     }
+    
+// };
+
 
 
 class Solution {
