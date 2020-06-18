@@ -26,3 +26,21 @@ public:
         return size - r;
     }
 };
+
+// class Solution {
+// public:
+//     int hIndex(vector<int>& citations) {
+//         int n = citations.size();
+//         int low = 0;
+//         int high = n;
+//         while(low < high)
+//         {
+//             int mid = low + ((high - low)>>1);
+//             if(n - mid <= citations[mid])
+//                 high = mid;
+//             else 
+//                 low = mid+1;
+//         }
+//         return n-high;        
+//     }
+// };
