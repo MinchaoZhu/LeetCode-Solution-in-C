@@ -2,6 +2,39 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+//https://leetcode.com/problems/permutation-sequence/discuss/697272/C%2B%2B-0ms-solution-by-using-std%3A%3Alist-with-example
+// class Solution {
+// public:
+//     string getPermutation(int n, int k) {
+//         vector<int> modular(n+1);
+//         modular[0] = 1;
+//         for(int i = 1; i<=n; ++i){
+//             modular[i] = modular[i-1] * i;
+//         }
+        
+//         list<char> nums; // includes remaining digits
+//         for(int i = 1; i<=n; ++i){
+//             nums.emplace_back(i + '0');
+//         }
+        
+//         string result = "";
+//         int pos;
+//         int res = k - 1; 
+        
+//         for(int i = n-1; i>=0; --i){
+//             pos = res / modular[i];
+//             res = res % modular[i];
+            
+//             auto iter = nums.begin();
+//             advance(iter, pos);
+//             result += *iter;
+//             nums.erase(iter);
+//         }
+        
+//         return result;
+//     }
+// };
+
 int find(bool*flag,int pos,int size){
     for(int i = 0;i<size;++i){
         if(!flag[i])
