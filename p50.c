@@ -3,6 +3,33 @@
 #include <math.h>
 #include <stdint.h>
 
+
+
+// class Solution {
+// public:
+//     double myPow(double x, int n) {
+//         if(x == 0)
+//             return 0;
+//         double powValue[32];
+//         double tmp = n>0?x:1/x;
+//         uint32_t nn = abs(n);
+//         for(int i = 0; i<32; ++i) {
+//             powValue[i] = tmp;
+//             tmp *= tmp;
+//         }
+        
+//         double result = 1;
+//         for(int i = 0; i<32; ++i) {
+//             result *= (nn&1) ? powValue[i] : 1;
+//             nn = nn >> 1;
+//         }
+        
+//         return result;
+        
+//     }
+// };
+
+
 double myPow(double x, int n) {
     double result = 1.0;
     int exp = 0;
